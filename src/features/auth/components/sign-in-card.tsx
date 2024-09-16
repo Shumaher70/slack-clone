@@ -25,9 +25,11 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [pending, setPending] = useState(false);
 
-  const handleProviderSignIN = (value: "github" | "google") => {
-    signIn(value);
+  const onProviderSignIn = (value: "github" | "google") => {
+    setPending(true);
+    signIn(value).finally(() => setPending(false));
   };
 
   return (
@@ -45,7 +47,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             required
             value={email}
             type="email"
-            disabled={false}
+            disabled={pending}
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -53,11 +55,11 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             required
             value={password}
             type="password"
-            disabled={false}
+            disabled={pending}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button type="submit" className="w-full" size="lg" disabled={false}>
+          <Button type="submit" className="w-full" size="lg" disabled={pending}>
             Continue
           </Button>
         </form>
@@ -67,9 +69,9 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
         <div className="flex flex-col gap-y-2.5">
           <Button
             size="lg"
-            disabled={false}
+            disabled={pending}
             variant="outline"
-            onClick={() => {}}
+            onClick={() => onProviderSignIn("google")}
             className="relative w-full"
           >
             <FcGoogle className="absolute left-3 top-2.5 size-5" />
@@ -77,9 +79,9 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           </Button>
           <Button
             size="lg"
-            disabled={false}
+            disabled={pending}
             variant="outline"
-            onClick={() => handleProviderSignIN("github")}
+            onClick={() => onProviderSignIn("github")}
             className="relative w-full"
           >
             <FaGithub className="absolute left-3 top-2.5 size-5" />
