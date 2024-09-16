@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { TriangleAlert } from "lucide-react";
+import { useAuthActions } from "@convex-dev/auth/react";
 
 import { SignInFlow } from "../types";
 
@@ -20,9 +22,35 @@ interface SignUpCardProps {
 }
 
 export const SignUpCard = ({ setState }: SignUpCardProps) => {
+  const { signIn } = useAuthActions();
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [error, setError] = useState("");
+  const [pending, setPending] = useState(false);
+
+  const onProviderSignUp = (value: "github" | "google") => {
+    setPending(true);
+    signIn(value).finally(() => setPending(false));
+  };
+
+  const onPasswordSignUp = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError("Password do not match");
+      return;
+    }
+
+    setPending(true);
+    signIn("password", { name, email, password, flow: "signUp" })
+      .catch(() => setError("Something went wrong"))
+      .finally(() => setPending(false));
+  };
+
   return (
     <Card className="h-full w-full p-8">
       <CardHeader className="px-0 pt-0">
@@ -32,13 +60,27 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
         </CardDescription>
       </CardHeader>
 
+      {!!error && (
+        <div className="mb-6 flex items-center gap-x-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+          <TriangleAlert className="size-4" />
+          <p>{error}</p>
+        </div>
+      )}
+
       <CardContent className="space-y-5 px-0 pb-0">
-        <form className="space-y-2.5">
+        <form onSubmit={onPasswordSignUp} className="space-y-2.5">
+          <Input
+            required
+            value={name}
+            disabled={pending}
+            placeholder="Full name"
+            onChange={(e) => setName(e.target.value)}
+          />
           <Input
             required
             value={email}
             type="email"
-            disabled={false}
+            disabled={pending}
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -46,7 +88,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             required
             value={password}
             type="password"
-            disabled={false}
+            disabled={pending}
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -54,11 +96,11 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             required
             value={confirmPassword}
             type="password"
-            disabled={false}
+            disabled={pending}
             placeholder="Confirm password"
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          <Button type="submit" className="w-full" size="lg" disabled={false}>
+          <Button type="submit" className="w-full" size="lg" disabled={pending}>
             Continue
           </Button>
         </form>
@@ -68,9 +110,9 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
         <div className="flex flex-col gap-y-2.5">
           <Button
             size="lg"
-            disabled={false}
+            disabled={pending}
             variant="outline"
-            onClick={() => {}}
+            onClick={() => onProviderSignUp("google")}
             className="relative w-full"
           >
             <FcGoogle className="absolute left-3 top-2.5 size-5" />
@@ -78,9 +120,9 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
           </Button>
           <Button
             size="lg"
-            disabled={false}
+            disabled={pending}
             variant="outline"
-            onClick={() => {}}
+            onClick={() => onProviderSignUp("github")}
             className="relative w-full"
           >
             <FaGithub className="absolute left-3 top-2.5 size-5" />
