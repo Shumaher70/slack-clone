@@ -2,7 +2,7 @@ import { InfoIcon, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { useGetWorkspace } from "@/features/auth/workspaces/api/use-get-workspace";
+import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 
 export const Toolbar = () => {
   const workspaceId = useWorkspaceId();

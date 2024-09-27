@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { CreateWorkspaceModal } from "@/features/auth/workspaces/components/create-workspace-modal";
+import { CreateWorkspaceModal } from "@/features/workspaces/components/create-workspace-modal";
 
 export const Modal = () => {
   const [mounted, setMounted] = useState(false);
