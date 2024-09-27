@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 
-import { useGetWorkspace } from "@/features/auth/workspaces/api/use-get-workspace";
-import { useGetWorkspaces } from "@/features/auth/workspaces/api/use-get-workspaces";
-import { useCreateWorkspaceModal } from "@/features/auth/workspaces/store/use-create-workspace-modal";
+import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
+import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
+import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
 
 import {
   DropdownMenu,
