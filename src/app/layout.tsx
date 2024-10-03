@@ -7,6 +7,7 @@ import "./globals.css";
 
 import { Modal } from "@/components/modals";
 import { Toaster } from "@/components/ui/sonner";
+import { JotaiProvider } from "@/components/jotiai-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,9 +26,11 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${inter.className}`}>
           <ConvexClientProvider>
-            <Toaster />
-            <Modal />
-            {children}
+            <JotaiProvider>
+              <Toaster />
+              <Modal />
+              {children}
+            </JotaiProvider>
           </ConvexClientProvider>
         </body>
       </html>
