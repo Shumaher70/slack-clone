@@ -28,7 +28,7 @@ const WorkspaceIdPage = () => {
   });
 
   const channelId = useMemo(() => channels?.[0]?._id, [channels]);
-  const isAdmin = useMemo(() => member?.role === "admin", []);
+  const isAdmin = useMemo(() => member?.role === "admin", [member?.role]);
 
   useEffect(() => {
     if (
@@ -59,7 +59,7 @@ const WorkspaceIdPage = () => {
     workspaceLoading,
   ]);
 
-  if (workspaceLoading || channelsLoading) {
+  if (workspaceLoading || channelsLoading || memberIsLoading) {
     return (
       <div className="h-full flex-1 flex-col items-center justify-center gap-2">
         <Loader className="size-6 animate-spin text-muted-foreground" />
@@ -67,7 +67,7 @@ const WorkspaceIdPage = () => {
     );
   }
 
-  if (!workspace) {
+  if (!workspace || !member) {
     return (
       <div className="h-full flex-1 flex-col items-center justify-center gap-2">
         <TriangleAlert className="size-6 text-muted-foreground" />
