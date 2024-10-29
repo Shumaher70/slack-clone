@@ -2,6 +2,7 @@ import { format, isToday, isYesterday } from "date-fns";
 import dynamic from "next/dynamic";
 
 import { Hint } from "./hint";
+import { Toolbar } from "./toolbar";
 import { Thumbnail } from "./thumbnail";
 import { Doc, Id } from "../../convex/_generated/dataModel";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
@@ -109,6 +110,17 @@ export const Message = ({
           ) : null}
         </div>
       </div>
+      {!isEditing && (
+        <Toolbar
+          isAuthor={isAuthor}
+          isPending={false}
+          handleEdit={() => setEditingId(id)}
+          handleThread={() => {}}
+          handleDelete={() => {}}
+          handleReaction={() => {}}
+          hideThreadButton={hideThreadButton}
+        />
+      )}
     </div>
   );
 };
