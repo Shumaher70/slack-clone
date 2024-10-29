@@ -8,7 +8,7 @@ import { useChannelId } from "@/hooks/use-channel-id";
 
 import { Header } from "./header";
 import { ChatInput } from "./chat-input";
-import { MessageList } from "@/components/messge-list";
+import { MessageList } from "@/components/message-list";
 import { useGetMessages } from "@/features/messages/api/use-get-messages";
 
 const ChannelIdPage = () => {
