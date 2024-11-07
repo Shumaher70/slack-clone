@@ -9,6 +9,7 @@ import { useWorkspaceId } from "@/hooks/use-workspace-id";
 
 import { Message } from "./message";
 import { ChannelHero } from "./channel-hero";
+import { ConversationHero } from "./conversation-hero";
 
 import { Id } from "../../convex/_generated/dataModel";
 
@@ -134,6 +135,9 @@ export const MessageList = ({
       )}
       {variant === "channel" && channelName && channelCreationTime && (
         <ChannelHero name={channelName} creationTime={channelCreationTime} />
+      )}
+      {variant === "conversation" && (
+        <ConversationHero name={memberName} image={memberImage} />
       )}
     </div>
   );
